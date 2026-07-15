@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #fafafa;
+    --ink: #0a0a0f;
+    --ink-soft: #8a8f98;
+    --line: #e4e4e7;
+    --accent: #2e5eff;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding: 40px 20px;
+  }
+  .wrap{ max-width: 460px; width:100%; text-align:center; }
+
+  a.back{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:40px;
+  }
+  a.back:hover{ color:var(--accent); }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--accent);
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .eyebrow::before{ content:""; width:6px;height:6px;background:var(--accent);border-radius:50%; }
+
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(26px, 5vw, 32px);
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 16px;
+  }
+  p.lede{
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    margin: 0 0 32px;
+  }
+
+  .email-card{
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:16px;
+    padding:28px 24px;
+  }
+  .email-card .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .email-card a{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:20px;
+    font-weight:600;
+    color:var(--accent);
+    text-decoration:none;
+    word-break:break-all;
+  }
+  .email-card a:hover{ text-decoration:underline; }
+  .email-card .note{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:14px;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <a class="back" href="home-screen.html">← back to links</a>
+
+    <p class="eyebrow">Get in touch</p>
+    <h1>Contact</h1>
+    <p class="lede">For support or assistance with any app or extension, or any other questions, reach out here:</p>
+
+    <div class="email-card">
+      <div class="label">Email</div>
+      <a href="mailto:lpt-apps@icloud.com">lpt-apps@icloud.com</a>
+      <p class="note">Please mention which app or extension you're writing about — it helps route things faster.</p>
+    </div>
+
+  </div>
+
+<!--
+  HOW TO EDIT
+  ===========
+  - Swap lpt-apps@icloud.com if this address ever changes.
+  - This one address currently covers everything: support requests, general
+    questions, and business/press inquiries. If any of those ever needs its own
+    address (e.g. a separate press@ or business@), just duplicate the .email-card
+    block and give it its own label.
+-->
+</body>
+</html>

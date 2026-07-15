@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LPT-Apps — Links</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #fafafa;
+    --ink: #0a0a0f;
+    --ink-soft: #8a8f98;
+    --line: #e4e4e7;
+    --accent: #2e5eff;
+    --accent-soft: rgba(46,94,255,0.07);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    justify-content:center;
+    padding: 70px 20px 60px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  ::selection{ background: var(--accent); color:white; }
+
+  .page{
+    width:100%;
+    max-width: 480px;
+  }
+
+  /* Profile */
+  .profile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    margin-bottom: 40px;
+  }
+  .avatar{
+    width:64px;
+    height:64px;
+    border-radius:18px;
+    background: linear-gradient(160deg, var(--ink) 0%, #2a2f3d 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    color:white;
+    font-weight:600;
+    font-size:22px;
+    margin-bottom:18px;
+  }
+  .profile h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:22px;
+    font-weight:600;
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .profile p{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0;
+    max-width:34ch;
+    line-height:1.55;
+  }
+  .profile .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--accent);
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .profile .eyebrow::before{
+    content:"";
+    width:6px;height:6px;
+    background:var(--accent);
+    border-radius:50%;
+  }
+
+  /* Section labels */
+  .group-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    margin: 30px 0 12px 4px;
+  }
+  .group-label:first-of-type{ margin-top:0; }
+
+  /* Link list */
+  .links{ display:flex; flex-direction:column; gap:10px; }
+
+  /* Expandable item */
+  .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    transition: border-color 0.18s ease;
+  }
+  .item.open{ border-color: var(--accent); }
+
+  .item-head{
+    all:unset;
+    box-sizing:border-box;
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+    padding:14px 16px;
+    transition: background 0.18s ease;
+  }
+  .item-head:hover, .item-head:focus-visible{
+    background: var(--accent-soft);
+    outline:none;
+  }
+
+  .item .mark{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    color:white;
+    overflow:hidden;
+  }
+  .item .mark.mark-logo{
+    background:#fff;
+    border:1px solid var(--line);
+  }
+  .item .mark.mark-logo img.logo-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .item .text{ flex:1; min-width:0; text-align:left; }
+  .item .text .name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    margin-bottom:2px;
+    color:var(--ink);
+  }
+  .item .text .desc{
+    font-size:12px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .item .status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    padding:3px 8px;
+    border-radius:20px;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+  .item .chevron{
+    flex-shrink:0;
+    color:var(--ink-soft);
+    transition: transform 0.25s ease, color 0.25s ease;
+    display:flex;
+  }
+  .item.open .chevron{
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+
+  /* Expand panel */
+  .item-panel{
+    display:grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s ease;
+  }
+  .item.open .item-panel{ grid-template-rows: 1fr; }
+  .item-panel-inner{ overflow:hidden; }
+
+  .sub-links{
+    display:flex;
+    flex-direction:column;
+    padding: 2px 10px 10px;
+    border-top:1px solid var(--line);
+    margin-top:2px;
+  }
+  .sub-link{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    text-decoration:none;
+    color:var(--ink);
+    font-size:13px;
+    padding:11px 8px;
+    border-radius:8px;
+    transition: background 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+  }
+  .sub-link:hover, .sub-link:focus-visible{
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding-left:12px;
+    outline:none;
+  }
+  .sub-link .label{ display:flex; align-items:center; gap:10px; }
+  .sub-link .dot{
+    width:5px;height:5px;
+    border-radius:50%;
+    background: var(--ink-soft);
+    flex-shrink:0;
+  }
+  .sub-link:hover .dot, .sub-link:focus-visible .dot{ background: var(--accent); }
+  .sub-link .arrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  .sub-link:hover .arrow, .sub-link:focus-visible .arrow{ color: var(--accent); }
+
+  /* Docs list, more understated */
+  .doc-btn{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    text-decoration:none;
+    color:var(--ink-soft);
+    padding:11px 4px;
+    border-bottom:1px solid var(--line);
+    font-size:13px;
+    transition: color 0.18s ease, padding-left 0.18s ease;
+  }
+  .doc-btn:hover, .doc-btn:focus-visible{
+    color:var(--accent);
+    padding-left:8px;
+    outline:none;
+  }
+  .doc-btn span.arrow{ font-family:'IBM Plex Mono', monospace; }
+
+  footer{
+    text-align:center;
+    margin-top: 50px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  footer a{ color:var(--ink-soft); }
+
+  /* Support / tip card — intentionally distinct from the light link items */
+  .support-card{
+    margin-top: 34px;
+    background: linear-gradient(165deg, #1c1c1f 0%, #101012 100%);
+    border-radius: 18px;
+    padding: 26px 24px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    text-decoration:none;
+    color:#fff;
+    box-shadow: 0 16px 32px -14px rgba(0,0,0,0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .support-card:hover, .support-card:focus-visible{
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.45);
+    outline:none;
+  }
+  .support-card .icon-wrap{
+    width:52px;
+    height:52px;
+    border-radius:14px;
+    background:#1c1c1f;
+    border:1px solid rgba(255,255,255,0.08);
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .support-card .icon-wrap img{
+    width:34px;
+    height:34px;
+    display:block;
+  }
+  .support-card .support-text{ flex:1; min-width:0; }
+  .support-card .support-text .eyebrow-dark{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:#f0a527;
+    margin-bottom:4px;
+  }
+  .support-card .support-text .title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    margin-bottom:3px;
+  }
+  .support-card .support-text .sub{
+    font-size:12.5px;
+    color:rgba(255,255,255,0.55);
+  }
+  .support-card .go{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:#f0a527;
+    flex-shrink:0;
+  }
+</style>
+</head>
+<body>
+
+  <div class="page">
+
+    <div class="profile">
+      <div class="avatar">LPT</div>
+      <p class="eyebrow">Builder — apps &amp; extensions</p>
+      <h1>LPT-Apps</h1>
+      <p>Small, focused tools across iOS, macOS, and the browser. Tap an item to see its links.</p>
+    </div>
+
+    <div id="app-groups"></div>
+
+    <a class="support-card" href="https://ko-fi.com/lpt36526" target="_blank" rel="noopener">
+      <span class="icon-wrap">
+        <img src="Logos/kofi_logo.png" alt="">
+      </span>
+      <span class="support-text">
+        <div class="eyebrow-dark">Support the work</div>
+        <div class="title">Buy me a coffee</div>
+        <div class="sub">Enjoying an app? A small tip helps keep it going</div>
+      </span>
+      <span class="go">→</span>
+    </a>
+
+    <div class="group-label">Policies &amp; Contact</div>
+    <div>
+      <a class="doc-btn" href="privacy-policies.html">
+        <span>View All Privacy Policies</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="doc-btn" href="contact.html">
+        <span>Contact</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <footer>
+      © 2026 LPT-Apps — <a href="#">GitHub</a>
+    </footer>
+
+  </div>
+
+<script>
+  const CATEGORY_ORDER = ["iOS Games", "macOS Apps", "Cross-Platform", "Safari Extensions"];
+
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function buildItemHTML(app){
+    const title = escapeHtml(app.title || "Untitled");
+    const subtitle = escapeHtml(app.subtitle || "");
+    const status = escapeHtml(app.status || "");
+    const mark = escapeHtml((app.mark || "??").slice(0,2));
+    const color = escapeHtml(app.color || "#8a8f98");
+    const logo = escapeHtml(app.logo || "");
+    const link = escapeHtml(app.link || "#");
+    const linkLabel = escapeHtml(app.linkLabel || "Open");
+    const privacyLink = escapeHtml(app.privacyLink || "Privacy%20Policies/privacy-policy.pdf");
+
+    const markHTML = logo
+      ? `<span class="mark mark-logo" data-fallback-mark="${mark}" data-fallback-color="${color}"><img src="${logo}" alt="" class="logo-img"></span>`
+      : `<span class="mark" style="background:${color};">${mark}</span>`;
+
+    return `
+      <div class="item">
+        <button class="item-head" aria-expanded="false">
+          ${markHTML}
+          <span class="text">
+            <div class="name">${title}</div>
+            <div class="desc">${subtitle}</div>
+          </span>
+          <span class="status">${status}</span>
+          <span class="chevron">▾</span>
+        </button>
+        <div class="item-panel"><div class="item-panel-inner">
+          <div class="sub-links">
+            <a class="sub-link" href="${link}" target="_blank" rel="noopener">
+              <span class="label"><span class="dot"></span>${linkLabel}</span>
+              <span class="arrow">→</span>
+            </a>
+            <a class="sub-link" href="${privacyLink}">
+              <span class="label"><span class="dot"></span>Privacy Policy</span>
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </div></div>
+      </div>`;
+  }
+
+  function renderGroups(apps){
+    const container = document.getElementById('app-groups');
+    const byCategory = {};
+    apps.forEach(function(app){
+      const cat = app.category || "Other";
+      if(!byCategory[cat]) byCategory[cat] = [];
+      byCategory[cat].push(app);
+    });
+
+    // known categories first, in fixed order, then any unrecognized ones after
+    const orderedCats = CATEGORY_ORDER.filter(function(c){ return byCategory[c]; })
+      .concat(Object.keys(byCategory).filter(function(c){ return CATEGORY_ORDER.indexOf(c) === -1; }));
+
+    let html = "";
+    orderedCats.forEach(function(cat){
+      html += `<div class="group-label">${escapeHtml(cat)}</div><div class="links">`;
+      byCategory[cat].forEach(function(app){
+        html += buildItemHTML(app);
+      });
+      html += `</div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function wireAccordion(){
+    document.querySelectorAll('.item-head').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const item = btn.closest('.item');
+        const isOpen = item.classList.contains('open');
+
+        // close any other open item (accordion behavior)
+        document.querySelectorAll('.item.open').forEach(function(openItem){
+          if(openItem !== item){
+            openItem.classList.remove('open');
+            openItem.querySelector('.item-head').setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        item.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+  }
+
+  function wireLogoFallbacks(){
+    document.querySelectorAll('.mark-logo img.logo-img').forEach(function(img){
+      img.addEventListener('error', function(){
+        const wrap = img.closest('.mark-logo');
+        if(!wrap) return;
+        const mark = wrap.dataset.fallbackMark || '??';
+        const color = wrap.dataset.fallbackColor || '#8a8f98';
+        wrap.classList.remove('mark-logo');
+        wrap.style.background = color;
+        wrap.textContent = mark;
+      });
+    });
+  }
+
+  fetch('data.json')
+    .then(function(res){
+      if(!res.ok) throw new Error('data.json not found (' + res.status + ')');
+      return res.json();
+    })
+    .then(function(apps){
+      renderGroups(apps);
+      wireAccordion();
+      wireLogoFallbacks();
+    })
+    .catch(function(err){
+      const container = document.getElementById('app-groups');
+      container.innerHTML = '<p style="font-family:\'IBM Plex Mono\', monospace; font-size:12px; color:#8a8f98;">Couldn\'t load data.json — ' + escapeHtml(err.message) + '. If you\'re viewing this file directly from your computer, try running it through a local server instead of double-clicking it (browsers block this kind of file loading otherwise). It will work normally once hosted.</p>';
+      console.error(err);
+    });
+</script>
+
+<!--
+  HOW TO EDIT
+  ===========
+  PROFILE
+    - .avatar text ("LPT")     -> your initials/mark
+    - <h1>LPT-Apps</h1>        -> update once you settle on a final name/brand
+    - .profile p               -> your bio line
+
+  CATEGORIES: iOS Games / macOS Apps / Cross-Platform / Safari Extensions
+    The app list is no longer hardcoded here — it's generated from data.json at load time.
+    To add, edit, or remove a project, edit data.json instead of this file.
+    Use add-app.html to generate a properly-formatted entry without touching JSON syntax
+    directly — fill in the form, copy the result, paste it into data.json's array.
+
+    New categories are picked up automatically: any category name in data.json that isn't
+    "iOS Games", "macOS Apps", "Cross-Platform", or "Safari Extensions" will still render,
+    just appended after the four known ones.
+
+  DOCS
+    The general "Docs & policies" section at the bottom still exists for any policy that
+    isn't tied to one specific app (e.g. a site-wide privacy policy or terms of use).
+
+  SUPPORT CARD
+    - The dark card is deliberately styled differently from the light link items above it,
+      so it reads as its own thing rather than another project.
+    - href points to your Ko-fi: https://ko-fi.com/lpt36526 — update if that URL ever changes.
+    - The icon is Logos/kofi_logo.png — keep it in the Logos folder. Swap the file
+      (same filename) to change the icon later.
+    - .title / .sub text can be edited freely, e.g. swap "Buy me a coffee" for something
+      more on-brand once you settle on naming.
+
+  IMPORTANT — LOCAL TESTING
+    Browsers block a page from loading data.json via double-click/file:// for security
+    reasons. To preview changes locally, run a tiny local server from the folder, e.g.
+    (with Python installed) `python3 -m http.server` then open http://localhost:8000
+    in your browser. Once uploaded to GitHub Pages/Netlify/Vercel, it works normally
+    with no extra steps — this only affects testing on your own machine.
+
+  Keep this file, data.json, privacy-policies.html, contact.html, and the Logos and
+  Privacy Policies folders together when you upload/host them, since several links/
+  scripts point to them as relative paths.
+
+  add-app.html is intentionally NOT linked from this page and does not need to be
+  uploaded to your live host at all — keep it on your own machine and open it locally
+  (via server.py) whenever you want to add a new app.
+-->
+</body>
+</html>

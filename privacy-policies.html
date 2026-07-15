@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policies — LPT-Apps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #fafafa;
+    --ink: #0a0a0f;
+    --ink-soft: #8a8f98;
+    --line: #e4e4e7;
+    --accent: #2e5eff;
+    --accent-soft: rgba(46,94,255,0.07);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+  a.back{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:40px;
+  }
+  a.back:hover{ color:var(--accent); }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--accent);
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{ content:""; width:6px;height:6px;background:var(--accent);border-radius:50%; }
+
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 38px);
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 12px;
+  }
+  .lede{
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    margin: 0 0 40px;
+    max-width:48ch;
+  }
+
+  .list{ display:flex; flex-direction:column; gap:10px; }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+  .row:hover, .row:focus-visible{
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    outline:none;
+  }
+  .row .mark{
+    width:34px; height:34px; border-radius:9px;
+    flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:13px; color:#fff;
+    overflow:hidden;
+  }
+  .row .mark.mark-logo{ background:#fff; border:1px solid var(--line); }
+  .row .mark.mark-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .row .text{ flex:1; min-width:0; }
+  .row .name{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:14.5px; margin-bottom:2px; }
+  .row .cat{ font-size:12px; color:var(--ink-soft); }
+  .row .arrow{ color:var(--ink-soft); font-family:'IBM Plex Mono', monospace; font-size:12px; flex-shrink:0; }
+  .row:hover .arrow, .row:focus-visible .arrow{ color:var(--accent); }
+
+  .empty{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <a class="back" href="home-screen.html">← back to links</a>
+
+    <p class="eyebrow">Legal</p>
+    <h1>Privacy Policies</h1>
+    <p class="lede">Every app and extension listed here, with a direct link to its privacy policy. Most currently share one general policy — that's expected until any app needs its own.</p>
+
+    <div class="list" id="list">
+      <p class="empty">Loading…</p>
+    </div>
+
+  </div>
+
+<script>
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  fetch('data.json')
+    .then(function(res){
+      if(!res.ok) throw new Error('data.json not found (' + res.status + ')');
+      return res.json();
+    })
+    .then(function(apps){
+      const list = document.getElementById('list');
+      if(!apps.length){
+        list.innerHTML = '<p class="empty">No apps listed yet.</p>';
+        return;
+      }
+      list.innerHTML = apps.map(function(app){
+        const title = escapeHtml(app.title || "Untitled");
+        const category = escapeHtml(app.category || "");
+        const mark = escapeHtml((app.mark || "??").slice(0,2));
+        const color = escapeHtml(app.color || "#8a8f98");
+        const logo = escapeHtml(app.logo || "");
+        const href = escapeHtml(app.privacyLink || "Privacy%20Policies/privacy-policy.pdf");
+        const markHTML = logo
+          ? `<span class="mark mark-logo" data-fallback-mark="${mark}" data-fallback-color="${color}"><img src="${logo}" alt="" class="logo-img"></span>`
+          : `<span class="mark" style="background:${color};">${mark}</span>`;
+        return `<a class="row" href="${href}">
+          ${markHTML}
+          <span class="text">
+            <div class="name">${title}</div>
+            <div class="cat">${category}</div>
+          </span>
+          <span class="arrow">→</span>
+        </a>`;
+      }).join('');
+
+      document.querySelectorAll('.mark-logo img.logo-img').forEach(function(img){
+        img.addEventListener('error', function(){
+          const wrap = img.closest('.mark-logo');
+          if(!wrap) return;
+          wrap.classList.remove('mark-logo');
+          wrap.style.background = wrap.dataset.fallbackColor || '#8a8f98';
+          wrap.textContent = wrap.dataset.fallbackMark || '??';
+        });
+      });
+    })
+    .catch(function(err){
+      document.getElementById('list').innerHTML =
+        '<p class="empty">Couldn\'t load data.json — ' + escapeHtml(err.message) +
+        '. If viewing this file directly, run it through server.py instead of double-clicking it.</p>';
+      console.error(err);
+    });
+</script>
+
+<!--
+  This page reads data.json and lists every app with a link to its privacyLink field.
+  Nothing to edit here directly — add/remove apps in data.json and this list updates itself.
+-->
+</body>
+</html>
