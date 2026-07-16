@@ -6,9 +6,21 @@
     "mark": "Fl",
     "logo": "Logos/flexle_logo.png",
     "color": "#2e5eff",
-    "status": "ios",
+    "status": "iOS",
     "link": "https://apps.apple.com/gb/app/flexle/id6780220355",
     "linkLabel": "Open in App Store",
     "privacyLink": "Privacy%20Policies/Flexle-Privacy-Policy.pdf"
+  },
+  {
+    "title": "Fill Window for Video",
+    "subtitle": "Expand videos to fill window",
+    "category": "Safari Extensions",
+    "mark": "Fi",
+    "logo": "Logos/fillwindow_logo.png",
+    "color": "#2e5eff",
+    "status": "macOS",
+    "link": "https://apps.apple.com/gb/app/fill-window-for-video/id6788161965?mt=12",
+    "linkLabel": "Open in App Store",
+    "privacyLink": "Privacy%20Policies/FillWindow-Privacy-Policy.pdf"
   }
 ]
