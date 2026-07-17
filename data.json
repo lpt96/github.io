@@ -22,5 +22,17 @@
     "link": "https://apps.apple.com/gb/app/fill-window-for-video/id6788161965?mt=12",
     "linkLabel": "Open in App Store",
     "privacyLink": "Privacy%20Policies/FillWindow-Privacy-Policy.pdf"
+  },
+  {
+    "title": "Squish Video",
+    "subtitle": "Video Compressor and Tools",
+    "category": "macOS Apps",
+    "mark": "Sq",
+    "logo": "Logos/squish_logo.png",
+    "color": "#2e5eff",
+    "status": "macOS",
+    "link": "https://apps.apple.com/gb/app/squish-video/id6782396588?mt=12",
+    "linkLabel": "Open in App Store",
+    "privacyLink": "Privacy%20Policies/Squish-Privacy-Policy.pdf"
   }
 ]
